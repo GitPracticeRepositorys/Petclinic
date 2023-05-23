@@ -70,9 +70,10 @@ jobs:
   - checkout: self
     path: code-repo
 
-  - checkout: git
-    repository: 'GitPracticeRepositorys/learn-terraform-provision-eks-cluster'
-    token: $(GitHubPAT) # Replace with your GitHub personal access token
+  - git: 
+      repo: 'https://github.com/GitPracticeRepositorys/learn-terraform-provision-eks-cluster.git'
+      displayName: 'Checkout Terraform Files'
+      clean: true
 
   - task: TerraformTaskV1@0
     displayName: 'Terraform Init'
@@ -99,4 +100,6 @@ jobs:
       terraformServiceConnection: 'terraform'
 
   - task: AWSCLI@1
-    displayName:
+    displayName: 'Configure AWS CLI'
+    inputs:
+      awsCredentials: 'AWS-EKS-Connection'
