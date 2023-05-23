@@ -1,0 +1,37 @@
+# app-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-app-container
+          image: shivakrishna99/az-petclinic:latest  # Replace with your Docker image
+          ports:
+            - containerPort: 8080  # Replace with your application's port
+
+---
+
+# app-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080  # Replace with your application's port
+  selector:
+    app: my-app
