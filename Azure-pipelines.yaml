@@ -34,9 +34,3 @@ jobs:
       containerRegistry: 'Docker-Hub-Connection'
       repository: 'shivakrishna99/az-petclinic'
       tags: 'latest'
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifacts'
-    inputs:
-      PathtoPublish: '$(Build.SourcesDirectory)/target'
-      ArtifactName: 'Petclinic'
