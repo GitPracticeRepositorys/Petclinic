@@ -1,0 +1,42 @@
+trigger:
+  branches:
+    include:
+      - main
+
+jobs:
+- job: BuildAndPublish
+  displayName: 'Build and Publish'
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - checkout: self
+
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean package'
+      options: '-DskipTests'
+
+  - task: Docker@2
+    displayName: 'Build Docker image'
+    inputs:
+      command: 'build'
+      containerRegistry: 'Docker-Hub-Connection'
+      repository: 'shivakrishna99/az-petclinic'
+      dockerfile: '**/Dockerfile'
+      buildContext: '$(Build.SourcesDirectory)'
+
+  - task: Docker@2
+    displayName: 'Push Docker image'
+    inputs:
+      command: 'push'
+      containerRegistry: 'Docker-Hub-Connection'
+      repository: 'shivakrishna99/az-petclinic'
+      tags: 'latest'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifacts'
+    inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)/target'
+      ArtifactName: 'Petclinic'
