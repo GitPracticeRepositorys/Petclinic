@@ -70,9 +70,11 @@ jobs:
   - checkout: self
     path: code-repo
 
-  - checkout: git://github.com/GitPracticeRepositorys/learn-terraform-provision-eks-cluster.git
+  - checkout: git
     displayName: 'Checkout Terraform Files'
     clean: true
+    persistCredentials: true
+    repository: 'https://github.com/GitPracticeRepositorys/learn-terraform-provision-eks-cluster.git'
 
   - task: TerraformTaskV1@0
     displayName: 'Terraform Init'
