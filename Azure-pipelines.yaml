@@ -93,10 +93,3 @@ jobs:
       awsCredentials: 'AWS-EKS-Connection'
       awsRegion: 'us-west-2'
 
-  - script: |
-      aws eks update-kubeconfig --region us-west-2 --name Education
-    displayName: 'Configure Kubectl for EKS'
-
-  - script: |
-      kubectl apply -f kube-manifest.yaml
-    displayName: 'Deploy to Kubernetes'
