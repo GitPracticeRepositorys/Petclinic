@@ -70,10 +70,9 @@ jobs:
   - checkout: self
     path: code-repo
 
-  - git: 
-      repo: 'https://github.com/GitPracticeRepositorys/learn-terraform-provision-eks-cluster.git'
-      displayName: 'Checkout Terraform Files'
-      clean: true
+  - checkout: git://github.com/GitPracticeRepositorys/learn-terraform-provision-eks-cluster.git
+    displayName: 'Checkout Terraform Files'
+    clean: true
 
   - task: TerraformTaskV1@0
     displayName: 'Terraform Init'
@@ -103,3 +102,11 @@ jobs:
     displayName: 'Configure AWS CLI'
     inputs:
       awsCredentials: 'AWS-EKS-Connection'
+
+  - script: |
+      aws eks update-kubeconfig --region us-west-2 --name Education
+    displayName: 'Configure Kubectl for EKS'
+
+  - script: |
+      kubectl apply -f kube-manifest.yaml
+    displayName: 'Deploy to Kubernetes'
