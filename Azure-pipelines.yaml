@@ -50,10 +50,12 @@ jobs:
       PathtoPublish: '$(Build.SourcesDirectory)/target'
       ArtifactName: 'Petclinic'
 
-  - task: InstallTerraform@0
+  - script: |
+      curl -LO https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip
+      unzip terraform_1.0.0_linux_amd64.zip
+      sudo mv terraform /usr/local/bin/
+      terraform version
     displayName: 'Install Terraform'
-    inputs:
-      terraformVersion: '1.0.0'
 
   - task: UsePythonVersion@0
     inputs:
@@ -73,7 +75,7 @@ jobs:
       provider: 'aws'
       command: 'init'
       workingDirectory: 'learn-terraform-provision-eks-cluster'
-      terraformServiceConnection: '<name of your Terraform service connection>'
+      terraformServiceConnection: 'terraform'
 
   - task: TerraformTaskV1@0
     displayName: 'Terraform Plan'
