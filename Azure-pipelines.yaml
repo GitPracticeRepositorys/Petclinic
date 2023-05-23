@@ -12,6 +12,10 @@ jobs:
   steps:
   - checkout: self
 
+  - task: MavenAuthenticate@0
+    inputs:
+      mavenCredentials: 'MavenCredentials'
+
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
@@ -33,4 +37,6 @@ jobs:
       command: 'push'
       containerRegistry: 'Docker-Hub-Connection'
       repository: 'shivakrishna99/az-petclinic'
-      tags: 'latest'
+      tags: |
+        latest
+        $(Build.BuildId)
