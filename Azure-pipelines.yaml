@@ -70,18 +70,16 @@ jobs:
   - checkout: self
     path: code-repo
 
-  - checkout: git
-    displayName: 'Checkout Terraform Files'
-    clean: true
-    persistCredentials: true
-    repository: 'https://github.com/GitPracticeRepositorys/learn-terraform-provision-eks-cluster.git'
+  - script: |
+      git clone https://github.com/GitPracticeRepositorys/learn-terraform-provision-eks-cluster.git terraform-files
+    displayName: 'Clone Terraform Files'
 
   - task: TerraformTaskV1@0
     displayName: 'Terraform Init'
     inputs:
       provider: 'aws'
       command: 'init'
-      workingDirectory: 'learn-terraform-provision-eks-cluster'
+      workingDirectory: 'terraform-files'
       terraformServiceConnection: 'terraform'
 
   - task: TerraformTaskV1@0
@@ -89,7 +87,7 @@ jobs:
     inputs:
       provider: 'aws'
       command: 'plan'
-      workingDirectory: 'learn-terraform-provision-eks-cluster'
+      workingDirectory: 'terraform-files'
       terraformServiceConnection: 'terraform'
 
   - task: TerraformTaskV1@0
@@ -97,7 +95,7 @@ jobs:
     inputs:
       provider: 'aws'
       command: 'apply'
-      workingDirectory: 'learn-terraform-provision-eks-cluster'
+      workingDirectory: 'terraform-files'
       terraformServiceConnection: 'terraform'
 
   - task: AWSCLI@1
