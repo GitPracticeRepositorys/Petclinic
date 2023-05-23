@@ -104,6 +104,7 @@ jobs:
     displayName: 'Configure AWS CLI'
     inputs:
       awsCredentials: 'AWS-EKS-Connection'
+      awsRegion: 'us-west-2'
 
   - script: |
       aws eks update-kubeconfig --region us-west-2 --name Education
