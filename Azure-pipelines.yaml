@@ -24,7 +24,7 @@ jobs:
       command: 'build'
       containerRegistry: 'Docker-Hub-Connection'
       repository: 'shivakrishna99/az-petclinic'
-      dockerfile: '**/Dockerfile'
+      dockerfile: 'path/to/your/Dockerfile'
       buildContext: '$(Build.SourcesDirectory)'
 
   - task: Docker@2
@@ -33,7 +33,9 @@ jobs:
       command: 'push'
       containerRegistry: 'Docker-Hub-Connection'
       repository: 'shivakrishna99/az-petclinic'
-      tags: 'latest'
+      tags: |
+        $(Build.BuildId)
+        latest
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifacts'
