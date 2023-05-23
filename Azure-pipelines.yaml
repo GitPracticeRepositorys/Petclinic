@@ -43,3 +43,52 @@ jobs:
       tags: |
         latest
         $(Build.BuildId)
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifacts'
+    inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)/target'
+      ArtifactName: 'Petclinic'
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+
+  - script: |
+      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      sudo apt-get update && sudo apt-get install terraform
+      
+      terraform --version
+    displayName: 'Install Terraform'
+
+  - task: TerraformTaskV1@0
+    displayName: 'Initialize Terraform'
+    inputs:
+      provider: 'aws'
+      command: 'init'
+      workingDirectory: 'terraform'
+
+  - task: TerraformTaskV1@0
+    displayName: 'Validate Terraform'
+    inputs:
+      provider: 'aws'
+      command: 'validate'
+      workingDirectory: 'terraform'
+
+  - task: TerraformTaskV1@0
+    displayName: 'Apply Terraform'
+    inputs:
+      provider: 'aws'
+      command: 'apply'
+      workingDirectory: 'terraform'
+      environmentServiceNameAWS: 'AWS-EKS-Connection'
+
+  - script: |
+      aws eks update-kubeconfig --region us-west-2 --name Education
+    displayName: 'Configure Kubectl for EKS'
+
+  - script: |
+      kubectl apply -f kube-manifest.yaml
+    displayName: 'Deploy to Kubernetes'
