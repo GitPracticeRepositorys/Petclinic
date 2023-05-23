@@ -50,8 +50,7 @@ jobs:
       PathtoPublish: '$(Build.SourcesDirectory)/target'
       ArtifactName: 'Petclinic'
 
-  - task: InstallTerraform@0
-    displayName: 'Install Terraform'
+  - task: TerraformInstaller@0
     inputs:
       terraformVersion: '1.0.0'
 
