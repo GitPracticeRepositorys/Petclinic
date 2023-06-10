@@ -22,6 +22,17 @@ jobs:
       goals: 'clean package'
       options: '-DskipTests'
 
+  - task: SonarQubePrepare@4
+    inputs:
+      SonarQube: 'Sonar'  # Replace with the name of your SonarQube service connection
+      scannerMode: 'CLI'
+      configMode: 'file'
+      cliProjectKey: 'qt-devops'
+      cliProjectName: 'Qt@devops'
+      cliSources: 'src'
+
+  - task: SonarQubeAnalyze@4
+
   - task: Docker@2
     displayName: 'Build Docker image'
     inputs:
@@ -49,6 +60,3 @@ jobs:
     inputs:
       PathtoPublish: '$(Build.SourcesDirectory)/target'
       ArtifactName: 'Petclinic'
-
-  
-
