@@ -17,8 +17,10 @@ pipeline {
             }
 
             steps {
-                // Your steps go here
+                // Git checkout step
                 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/GitPracticeRepositorys/Petclinic.git'
+                
+                // Your remaining steps go here
             }
         }
         
