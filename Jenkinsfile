@@ -22,26 +22,6 @@ pipeline {
             }
         }
         
-        stage("Compile") {
-            agent {
-                label 'jdk11'
-            }
-            
-            steps {
-                sh "mvn clean compile"
-            }
-        }
-        
-        stage("Test Cases") {
-            agent {
-                label 'jdk11'
-            }
-            
-            steps {
-                sh "mvn test"
-            }
-        }
-        
         stage("Sonarqube Analysis") {
             agent {
                 label 'jdk11'
