@@ -1,5 +1,5 @@
 pipeline {
-    agent 'Node-1'
+    agent 'jdk11'
     
     tools{
         jdk 'jdk11'
