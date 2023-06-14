@@ -2,7 +2,7 @@ pipeline {
     agent none
 
     stages {
-        stage('Run on JDK11 Node') {
+        stage('Run on jdk11 Node') {
             agent {
                 node('jdk11') {
                     tools {
