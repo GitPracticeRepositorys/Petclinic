@@ -18,13 +18,7 @@ pipeline {
             }
         }
         
-        stage("Compile"){
-            steps{
-                sh "mvn clean compile"
-            }
-        }
-        
-         stage("Test Cases"){
+        stage("Test Cases"){
             steps{
                 sh "mvn test"
             }
